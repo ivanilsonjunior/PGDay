@@ -86,7 +86,7 @@ def deep_get(d, keys):
     return deep_get(d.get(keys[0]), keys[1:])
     
 
-engine = create_engine('postgresql+psycopg2://pgsql:pgday@localhost/pgday')
+engine = create_engine('postgresql+psycopg2://postgres:postgres@localhost/postgres')
 
 Base.metadata.create_all(engine)
 persistencia = Session(engine)
