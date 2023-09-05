@@ -115,5 +115,6 @@ outro.url = 'http://api.weatherapi.com/v1/current.json?key=4169d18cdef84c8ab4914
 outro.newChave('current')
 outro.newChave('temp_c')
 outro.temperaturator = t
+persistencia.add(outro)
 persistencia.commit()
 '''
