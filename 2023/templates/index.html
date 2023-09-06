@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Temperaturator Tabajara</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+      ul, #myUL {
+        list-style-type: none;
+      }
+      
+      #myUL {
+        margin: 0;
+        padding: 0;
+      }
+      
+      .caret {
+        cursor: pointer;
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none;
+      }
+      
+      .caret::before {
+        content: "\25B6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+      }
+      
+      .caret-down::before {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
+        transform: rotate(90deg);  
+      }
+      
+      .nested {
+        display: none;
+      }
+      
+      .active {
+        display: block;
+      }
+      </style>
+  </head>
+  <body>
+    <h3>Vc tem {{ count }} Temperaturators</h3>
+    {% for temp in temps %}
+    <p><a href="temperaturator/{{temp.id}}">Local: {{ temp.local }}</a>  Temperatura Média: <div id="media{{temp.id}}">#</div></p>
+    <button id="button{{temp.id}}" onclick="consumeTemp{{temp.id}}()">Atualizar</button>
+    <script>
+      const btn = document.querySelector('button{{temp.id}}');
+      var div = document.getElementById('media{{temp.id}}');
+
+      function consumeTemp{{temp.id}}(){
+        fetch(`/temperaturator/{{temp.id}}/consume`)
+        .then((response) => response.json())
+        .then((response) => {
+          div.innerHTML = response;
+        });
+      }
+    </script>
+    {% endfor %}
+    <form method="POST" action="/temperaturator/add">
+        Local: <input id="" type="text" name="local">
+        Descricao: <input id="" type="text" name="description">
+        <input id="submit" type="submit" value="Adicionar Temperaturator">
+      </form>
+  </body>
+</html>

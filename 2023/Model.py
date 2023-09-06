@@ -52,9 +52,9 @@ class EndPoint(Base):
     
     def newChave(self, valor:str):
         novo = Chave()
-        novo.endpoint = self
         novo.valor = valor
         novo.sequen = len(self.chaves)
+        novo.endpoint = self
         #self.chaves.append(novo)
 
     def consume(self) -> float:
@@ -97,7 +97,7 @@ t = Temperaturator()
 t.local = 'Natal'
 t.description = 'Minha cidade'
 persistencia.add(t)
-persistencia.commit()
+#persistencia.commit()
 e = EndPoint()
 e.url = 'https://api.open-meteo.com/v1/forecast?latitude=-5.795&longitude=-35.2094&current_weather=true'
 e.newChave('current_weather')

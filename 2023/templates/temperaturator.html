@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    </script>
+    <title>Temperaturator Tabajara</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <style>
+      ul, #myUL {
+        list-style-type: none;
+      }
+      
+      #myUL {
+        margin: 0;
+        padding: 0;
+      }
+      
+      .caret {
+        cursor: pointer;
+        -webkit-user-select: none; /* Safari 3.1+ */
+        -moz-user-select: none; /* Firefox 2+ */
+        -ms-user-select: none; /* IE 10+ */
+        user-select: none;
+      }
+      
+      .caret::before {
+        content: "\25B6";
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+      }
+      
+      .caret-down::before {
+        -ms-transform: rotate(90deg); /* IE 9 */
+        -webkit-transform: rotate(90deg); /* Safari */
+        transform: rotate(90deg);  
+      }
+      
+      .nested {
+        display: none;
+      }
+      
+      .active {
+        display: block;
+      }
+      </style>
+  </head>
+  <body>
+    <h1>Temperaturator {{ temp.local }} ( {{ temp.description }} )</h1>
+    <p>Numero de endpoints: {{ temp.endpoints | length }}</p>
+    <h6>EndPoints</h6>
+    <form method="POST" action="/temperaturator/{{temp.id}}/endpoint/add">
+      URL: <input id="" type="text" name="url">
+      <input id="submit" type="submit" value="Adicionar EndPoint">
+    </form>
+    {% for endp in temp.endpoints %}
+    <hr>
+    <p>{{ endp.url }}</p>
+    <form method="POST" action="/temperaturator/{{temp.id}}/endpoint/del">
+      <input type="hidden" name="endpointid" value={{endp.id}}>
+      <input id="submit" type="submit" value="Apagar Endpoint">
+    </form>
+    <h6>Chaves</h6>
+    <form method="POST" action="/temperaturator/{{temp.id}}/endpoint/{{endp.id}}/chave/add">
+      Chave: <input id="" type="text" name="chave">
+      <input id="submit" type="submit" value="Adicionar Chave">
+    </form>
+      <ol>
+      {% for chave in endp.chaves %}
+        <li>{{ chave.valor }}</li>
+      {% endfor %}
+    </ol>
+    {% endfor %}
+
+    <hr>
+    <h2>Ações</h2>
+    <form action="/temperaturator/apagar/{{temp.id}}" method="GET">
+      <input id="submit" type="submit" value="Apagar">
+    </form>
+
+  </body>
+</html>
